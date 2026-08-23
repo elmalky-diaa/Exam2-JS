@@ -933,8 +933,42 @@ function showFoodLog() {
       localStorage.setItem("nutriPlanLog", JSON.stringify(meals));
       console.log(index);
 
+      updateNutritionSummary();
       showFoodLog();
     });
   });
 }
+
+function updateNutritionSummary() {
+  const meals = getFoodLog();
+
+  let totalCalories = 0;
+  let totalProtein = 0;
+  let totalCarbs = 0;
+  let totalFats = 0;
+
+  meals.forEach((meal) => {
+    totalCalories += Number(meal.calories) || 0;
+
+    totalProtein += Number(meal.protein) || 0;
+
+    totalCarbs += Number(meal.carbs) || 0;
+
+    totalFats += Number(meal.fats) || 0;
+  });
+
+  document.getElementById("total-calories").textContent =
+    totalCalories.toFixed(0) + " / 2000 kca";
+
+  document.getElementById("total-protein").textContent =
+    totalProtein.toFixed(0) + " / 50 g";
+
+  document.getElementById("total-carbs").textContent =
+    totalCarbs.toFixed(0) + " / 250 g";
+
+  document.getElementById("total-fats").textContent =
+    totalFats.toFixed(0) + " / 65 g";
+}
+
 showFoodLog();
+updateNutritionSummary();
