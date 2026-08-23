@@ -53,12 +53,18 @@ const productDetailModal = document.getElementById("product-detail-modal");
 console.log(productDetailModal);
 
 const loggedItemsList = document.getElementById("logged-items-list");
+const foodlogDate = document.getElementById("foodlog-date");
 
 // console.log(removeBtns);
 
 let currentArea = ``;
 let currentId = "";
-
+foodlogDate.innerHTML = new Date().toLocaleDateString("en-US", {
+  weekday: "long",
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
 //Handel Loding
 function showLoading() {
   loading.style.display = "flex";
