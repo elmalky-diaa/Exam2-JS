@@ -636,19 +636,19 @@ function allProduct(data) {
                   <!-- Mini Nutrition -->
                   <div class="grid grid-cols-4 gap-1 text-center">
                     <div class="bg-emerald-50 rounded p-1.5">
-                      <p class="text-xs font-bold text-emerald-700">${data[index].nutrients.protein}</p>
+                      <p class="text-xs font-bold text-emerald-700">${Number(data[index].nutrients.protein).toFixed(2)}</p>
                       <p class="text-[10px] text-gray-500">Protein</p>
                     </div>
                     <div class="bg-blue-50 rounded p-1.5">
-                      <p class="text-xs font-bold text-blue-700">${data[index].nutrients.carbs}</p>
+                      <p class="text-xs font-bold text-blue-700">${Number(data[index].nutrients.carbs).toFixed(2)}</p>
                       <p class="text-[10px] text-gray-500">Carbs</p>
                     </div>
                     <div class="bg-purple-50 rounded p-1.5">
-                      <p class="text-xs font-bold text-purple-700">${data[index].nutrients.fat}</p>
+                      <p class="text-xs font-bold text-purple-700">${Number(data[index].nutrients.fat).toFixed(2)}</p>
                       <p class="text-[10px] text-gray-500">Fat</p>
                     </div>
                     <div class="bg-orange-50 rounded p-1.5">
-                      <p class="text-xs font-bold text-orange-700">${data[index].nutrients.sugar}</p>
+                      <p class="text-xs font-bold text-orange-700">${Number(data[index].nutrients.sugar).toFixed(2)}</p>
                       <p class="text-[10px] text-gray-500">Sugar</p>
                     </div>
                   </div>

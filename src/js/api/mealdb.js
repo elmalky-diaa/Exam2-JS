@@ -116,7 +116,7 @@ export async function getProduct(query = "nutella") {
 export async function getProductByBarcode(query) {
   try {
     const res = await fetch(
-      `https://nutriplan-api.vercel.app/api/products/barcode/${query}`,
+      `https://nutriplan-api.vercel.app/api/products/barcode/3017620422003${query}`,
     );
     if (!res.ok) {
       throw new Error(`HTTP error! status: ${res.status}`);
