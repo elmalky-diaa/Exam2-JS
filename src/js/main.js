@@ -20,10 +20,8 @@ import {
 
 // allAreas();
 // allCategories();
-
 const loading = document.getElementById("app-loading-overlay");
 const navLinks = document.querySelectorAll(".nav-link");
-
 const sections = document.querySelectorAll("section");
 const searchInput = document.getElementById("search-input");
 const searchFiltersSection = document.getElementById("search-filters-section");
@@ -46,7 +44,6 @@ const logMealBtn = document.getElementById("log-meal-btn");
 const nutritionFactsContainer = document.getElementById(
   "nutrition-facts-container",
 );
-
 const productSearchInput = document.getElementById("product-search-input");
 const productSearchBtn = document.getElementById("search-product-btn");
 const barcodeInput = document.getElementById("barcode-input");
@@ -55,6 +52,23 @@ const productGrid = document.getElementById("products-grid");
 
 let currentArea = ``;
 let currentId = "";
+
+//Handel Loding
+function showLoading() {
+  loading.style.display = "flex";
+  loading.classList.remove("opacity-0", "hidden");
+  loading.classList.add("opacity-100");
+}
+showLoading();
+function hideLoading() {
+  loading.classList.remove("opacity-100");
+  loading.classList.add("opacity-0");
+
+  setTimeout(() => {
+    loading.style.display = "none";
+    loading.classList.add("hidden");
+  }, 500);
+}
 
 //Start Handel SideBar And Links
 window.addEventListener("load", () => {
@@ -99,6 +113,8 @@ allAreas().then((data) => {
             <p class="text-gray-500 text-lg">Failed to load recipe details. Please try again.</p>
         </div>`;
   } else {
+    hideLoading();
+
     dispalyAllAreas(data);
   }
 });

@@ -3,11 +3,11 @@ export async function getApi(query = "chicken") {
     const res = await fetch(
       `https://nutriplan-api.vercel.app/api/meals/search?q=${query}&page=1&limit=25`,
     );
+
     if (!res.ok) {
       throw new Error(`HTTP error! status: ${res.status}`);
     }
     const data = await res.json();
-
     console.log(data);
     return data;
   } catch (error) {
