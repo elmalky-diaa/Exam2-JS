@@ -49,8 +49,12 @@ const productSearchBtn = document.getElementById("search-product-btn");
 const barcodeInput = document.getElementById("barcode-input");
 const lookupBarcodeBtn = document.getElementById("lookup-barcode-btn");
 const productGrid = document.getElementById("products-grid");
+const productDetailModal = document.getElementById("product-detail-modal");
+console.log(productDetailModal);
 
 const loggedItemsList = document.getElementById("logged-items-list");
+
+// console.log(removeBtns);
 
 let currentArea = ``;
 let currentId = "";
@@ -607,7 +611,7 @@ function allProduct(data) {
                   class="relative h-40 bg-gray-100 flex items-center justify-center overflow-hidden"
                 >
                   <img
-                    class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300"
+                    class=" w-full h-full object-contain group-hover:scale-110 transition-transform duration-300"
                     src="${data[index].image}"
                     alt="Product Name"
                     loading="lazy"
@@ -681,6 +685,57 @@ function allProduct(data) {
    `;
   }
   productGrid.innerHTML = product;
+
+  // Add To Local Storage
+
+  const productCard = document.querySelectorAll(".product-card");
+
+  productCard.forEach((card, index) => {
+    card.addEventListener("click", () => {
+      const product = data[index];
+
+      const productToLog = {
+        id: product.id,
+
+        name: product.name,
+
+        thumbnail: product.image,
+
+        calories: Number(product.nutrients.calories).toFixed(2) || 0,
+
+        protein: Number(product.nutrients.protein).toFixed(2) || 0,
+
+        carbs: Number(product.nutrients.carbs).toFixed(2) || 0,
+
+        fats: Number(product.nutrients.fat).toFixed(2) || 0,
+
+        date: new Date().toLocaleDateString(),
+
+        type: "Product",
+      };
+
+      let currentLog = JSON.parse(localStorage.getItem("nutriPlanLog")) || [];
+
+      currentLog.push(productToLog);
+
+      localStorage.setItem("nutriPlanLog", JSON.stringify(currentLog));
+
+      alert(`${product.name} Added To Food Log`);
+
+      showFoodLog();
+    });
+  });
+
+  // const productCard = document.querySelectorAll(".product-card");
+  // for (let index = 0; index < productCard.length; index++) {
+  //   console.log(productCard.length);
+  //   productCard[index].addEventListener("click", () => {
+  //     console.log(productCard[index]);
+  //   });
+  // }
+
+  // console.log(productCard);
+
   //   document.getElementById("products-count").textContent =
   //     ` Found ${data.length} products for  " ${data[0].brand} "`;
 
@@ -820,7 +875,7 @@ function showFoodLog() {
   console.log(meals);
   let cartona = "";
 
-  meals.forEach((meal) => {
+  meals.forEach((meal, index) => {
     cartona += `
 
 <div class="flex items-center justify-between bg-gray-50 rounded-xl p-4 hover:bg-gray-100 transition-all">
@@ -831,7 +886,7 @@ function showFoodLog() {
                                 <p class="text-sm text-gray-500">
                                     1 serving
                                     <span class="mx-1">•</span>
-                                    <span class="text-emerald-600">Recipe</span>
+                                    <span class="text-emerald-600">${meal.type}</span>
                                 </p>
                                 <p class="text-xs text-gray-400 mt-1">1:13 PM</p>
                             </div>
@@ -846,7 +901,7 @@ function showFoodLog() {
                                 <span class="px-2 py-1 bg-amber-50 rounded">${meal.carbs}g C</span>
                                 <span class="px-2 py-1 bg-purple-50 rounded">${meal.fats}g F</span>
                             </div>
-                            <button class="remove-foodlog-item text-gray-400 hover:text-red-500 transition-all p-2" data-index="${meal.id}">
+                            <button class="remove-foodlog-item text-gray-400 hover:text-red-500 transition-all p-2" data-index="${index}">
                                 <i data-fa-i2svg=""><svg class="svg-inline--fa fa-trash-can" data-prefix="fas" data-icon="trash-can" role="img" viewBox="0 0 448 512" aria-hidden="true" data-fa-i2svg=""><path fill="currentColor" d="M136.7 5.9C141.1-7.2 153.3-16 167.1-16l113.9 0c13.8 0 26 8.8 30.4 21.9L320 32 416 32c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 96C14.3 96 0 81.7 0 64S14.3 32 32 32l96 0 8.7-26.1zM32 144l384 0 0 304c0 35.3-28.7 64-64 64L96 512c-35.3 0-64-28.7-64-64l0-304zm88 64c-13.3 0-24 10.7-24 24l0 192c0 13.3 10.7 24 24 24s24-10.7 24-24l0-192c0-13.3-10.7-24-24-24zm104 0c-13.3 0-24 10.7-24 24l0 192c0 13.3 10.7 24 24 24s24-10.7 24-24l0-192c0-13.3-10.7-24-24-24zm104 0c-13.3 0-24 10.7-24 24l0 192c0 13.3 10.7 24 24 24s24-10.7 24-24l0-192c0-13.3-10.7-24-24-24z"></path></svg></i>
                             </button>
                         </div>
@@ -857,5 +912,23 @@ function showFoodLog() {
   });
 
   loggedItemsList.innerHTML = cartona;
+  const removeBtns = document.querySelectorAll(".remove-foodlog-item");
+
+  console.log(removeBtns);
+
+  removeBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const index = btn.dataset.index;
+
+      let meals = getFoodLog();
+
+      meals.splice(index, 1);
+
+      localStorage.setItem("nutriPlanLog", JSON.stringify(meals));
+      console.log(index);
+
+      showFoodLog();
+    });
+  });
 }
 showFoodLog();
