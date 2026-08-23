@@ -50,6 +50,8 @@ const barcodeInput = document.getElementById("barcode-input");
 const lookupBarcodeBtn = document.getElementById("lookup-barcode-btn");
 const productGrid = document.getElementById("products-grid");
 
+const loggedItemsList = document.getElementById("logged-items-list");
+
 let currentArea = ``;
 let currentId = "";
 
@@ -429,6 +431,7 @@ function getMealDetails(meal) {
     localStorage.setItem("nutriPlanLog", JSON.stringify(currentLog));
 
     alert(`Added ${item.name} to Log!`);
+    showFoodLog();
   }
 
   //   Back Link
@@ -793,3 +796,66 @@ function allProductBarcode(data) {
 
   //
 }
+
+// Food Loged
+
+function getFoodLog() {
+  return JSON.parse(localStorage.getItem("nutriPlanLog")) || [];
+}
+function showFoodLog() {
+  const meals = getFoodLog();
+
+  if (meals.length === 0) {
+    loggedItemsList.innerHTML = `
+      <div class="text-center py-8 text-gray-500">
+        <i class="fa-solid fa-utensils text-4xl mb-3 text-gray-300"></i>
+        <p class="font-medium">No meals logged today</p>
+        <p class="text-sm">
+          Add meals from the Meals page or scan products
+        </p>
+      </div>
+    `;
+    return;
+  }
+  console.log(meals);
+  let cartona = "";
+
+  meals.forEach((meal) => {
+    cartona += `
+
+<div class="flex items-center justify-between bg-gray-50 rounded-xl p-4 hover:bg-gray-100 transition-all">
+                        <div class="flex items-center gap-4">
+                            <img src="${meal.thumbnail}" alt="${meal.name}" class="w-14 h-14 rounded-xl object-cover">
+                            <div>
+                                <p class="font-semibold text-gray-900">${meal.name}</p>
+                                <p class="text-sm text-gray-500">
+                                    1 serving
+                                    <span class="mx-1">•</span>
+                                    <span class="text-emerald-600">Recipe</span>
+                                </p>
+                                <p class="text-xs text-gray-400 mt-1">1:13 PM</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="text-right">
+                                <p class="text-lg font-bold text-emerald-600">${meal.calories}</p>
+                                <p class="text-xs text-gray-500">kcal</p>
+                            </div>
+                            <div class="hidden md:flex gap-2 text-xs text-gray-500">
+                                <span class="px-2 py-1 bg-blue-50 rounded">${meal.protein}g P</span>
+                                <span class="px-2 py-1 bg-amber-50 rounded">${meal.carbs}g C</span>
+                                <span class="px-2 py-1 bg-purple-50 rounded">${meal.fats}g F</span>
+                            </div>
+                            <button class="remove-foodlog-item text-gray-400 hover:text-red-500 transition-all p-2" data-index="${meal.id}">
+                                <i data-fa-i2svg=""><svg class="svg-inline--fa fa-trash-can" data-prefix="fas" data-icon="trash-can" role="img" viewBox="0 0 448 512" aria-hidden="true" data-fa-i2svg=""><path fill="currentColor" d="M136.7 5.9C141.1-7.2 153.3-16 167.1-16l113.9 0c13.8 0 26 8.8 30.4 21.9L320 32 416 32c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 96C14.3 96 0 81.7 0 64S14.3 32 32 32l96 0 8.7-26.1zM32 144l384 0 0 304c0 35.3-28.7 64-64 64L96 512c-35.3 0-64-28.7-64-64l0-304zm88 64c-13.3 0-24 10.7-24 24l0 192c0 13.3 10.7 24 24 24s24-10.7 24-24l0-192c0-13.3-10.7-24-24-24zm104 0c-13.3 0-24 10.7-24 24l0 192c0 13.3 10.7 24 24 24s24-10.7 24-24l0-192c0-13.3-10.7-24-24-24zm104 0c-13.3 0-24 10.7-24 24l0 192c0 13.3 10.7 24 24 24s24-10.7 24-24l0-192c0-13.3-10.7-24-24-24z"></path></svg></i>
+                            </button>
+                        </div>
+                    </div>
+
+      
+    `;
+  });
+
+  loggedItemsList.innerHTML = cartona;
+}
+showFoodLog();
